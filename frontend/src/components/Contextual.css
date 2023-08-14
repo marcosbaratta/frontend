@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.header{
+    display: flex;
+    }
+
+
+
+.genres{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.genres button {
+    text-decoration: none;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    width: 25%;
+}
+
+
+.filter{
+    display: flex;
+    flex-direction: column;
+}
