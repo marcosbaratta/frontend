@@ -1,78 +1,89 @@
-import './Contextual.css'
-import { useEffect, useState } from 'react';
-
-
-
-
+import "./Contextual.css";
+import { useEffect, useState } from "react";
 
 function Contextual() {
+  const [filters, setAllfilters] = useState({});
 
+  let email = 'lacaro_delacurva1@yahoo.com';
+  let password = 'pingpong';
 
-    const [pokemons, setPokemons] = useState([]);
+  const login = async () => {
+    const myHeader = new Headers();
+    myHeader.append('content-type', 'application/json');
+    let requestOptions = {
+        method: 'POST',
+        headers: myHeader,
+        body: JSON.stringify({email,password})
+    }
 
-    useEffect(() => {
-        const getPokemons = async () => {
-          const res = await fetch(`http://localhost:3001/songs`);
-          const data = await res.json();
-    
-          setPokemons(data.results);
-        };
-    
-        getPokemons();
-    
-      }, []);
-      console.log(pokemons);
+    const res = await fetch(`http://localhost:3001/login`, requestOptions).then((respuesta)=>respuesta.json())
+    console.log(res);
+    localStorage.setItem('token', res.token)
+  }
 
+  useEffect(() => {
+    const getAllfilters = async () => {
+    let cabecera = new Headers();
+    cabecera.append('token', localStorage.getItem('token'))
+      const res = await fetch(`http://localhost:3001/filters`, {
+        headers: cabecera
+      });
+      const data = await res.json();
 
-    const lista2 = [
-        {
-            id: 2,
-            name: 'cocinar'
-        },
-        {
-            id: 3,
-            name: 'hacer ejercicio'
-        }
-    ]
+      setAllfilters(data);
+    };
 
-    const generos = [
-        {id:1, name:'rock'},{id:2, name:'blues'},{id:3, name:'heavy metal'},{id:4, name:'cumbia'},{id:5, name:'tango'}]
+    getAllfilters();
+  }, []);
+  console.log(filters);
 
-  
-    return (
-     
-      <div className='container'>
-        <div className='header'>
-      <button>flechita</button>
-      <h1>Musica Contextual</h1>
-        </div>
+  return (
+    <div className="container">
+      <div className="header">
+        <button>flechita</button>
+        <h1>Musica Contextual</h1>
+      </div>
+      <div className="filter">
+        <label>¿Cuál es la ocasión?</label>
+        <select name="name">
+          {filters?.occasions?.map((elemento) => (
+            <option value={elemento.id}>{elemento.name}</option>
+          ))}
+        </select>
+      </div>
+      {
         <div className="filter">
-            <label>¿Cuál es la ocasión?</label>
-            <select name="name" >
-                {lista2.map(elemento => <option value={elemento.id}>{elemento.name}</option>)}
-
-            </select> 
+          <label>¿Cómo te sientes?</label>
+          <select name="name">
+            {filters?.moods?.map((elemento) => (
+              <option value={elemento.id}>{elemento.name}</option>
+            ))}
+          </select>
         </div>
+      }
+      {
         <div className="filter">
-            <label>¿Cómo te sientes?</label>
-            <select type="select" />
+          <label>¿Cómo está el clima?</label>
+          <select name="name">
+            {filters?.weathers?.map((elemento) => (
+              <option value={elemento.id}>{elemento.name}</option>
+            ))}
+          </select>
+          
         </div>
-        <div className="filter">
-            <label>¿Cómo está el clima?</label>
-            <select type="select"  />
-        </div>
-        <div className="genres-container">
-            <label>Selecciona hasta 3 géneros:</label>
-            <div className='genres'>
-               {generos.map(e => <button>{e.name}</button>)}
-            </div>
+      }
+      <div className="genres-container">
+        <label>Selecciona hasta 3 géneros:</label>
+        <div className="genres">
+          {filters?.genres?.map((e) => (
+            <button>{e.name}</button>
+          ))}
         </div>
       </div>
-        
-        
+      <button onClick={()=>login()}>Login</button>
+      <div>{localStorage.getItem('token')}</div>
+    </div>
+  );
+}
 
-    )
-  }
-  
-  export default Contextual
-  
+export default Contextual;
