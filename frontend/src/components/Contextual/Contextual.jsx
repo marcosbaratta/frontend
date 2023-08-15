@@ -9,26 +9,10 @@ function Contextual() {
     };
   const [filters, setAllfilters] = useState({});
 
-  let email = 'lacaro_delacurva1@yahoo.com';
-  let password = 'pingpong';
-
-  const login = async () => {
-    const myHeader = new Headers();
-    myHeader.append('content-type', 'application/json');
-    let requestOptions = {
-        method: 'POST',
-        headers: myHeader,
-        body: JSON.stringify({email,password})
-    }
-
-    const res = await fetch(`http://localhost:3001/login`, requestOptions).then((respuesta)=>respuesta.json())
-    console.log(res);
-    localStorage.setItem('token', res.token)
-  }
 
   useEffect(() => {
     const getAllfilters = async () => {
-    let cabecera = new Headers();
+    const cabecera = new Headers();
     cabecera.append('token', localStorage.getItem('token'))
       const res = await fetch(`http://localhost:3001/filters`, {
         headers: cabecera

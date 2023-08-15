@@ -7,7 +7,7 @@ function Register(){
       navigate("/home");
     };
     const goToInicio = () => {
-      navigate("/inicio");
+      navigate("/");
     };
     return(
         <div className="registerContainer">
