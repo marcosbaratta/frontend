@@ -1,7 +1,12 @@
 import "./Contextual.css";
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 function Contextual() {
+  const navigate = useNavigate();
+    const goToHome = () => {
+      navigate("/home");
+    };
   const [filters, setAllfilters] = useState({});
 
   let email = 'lacaro_delacurva1@yahoo.com';
@@ -40,7 +45,7 @@ function Contextual() {
   return (
     <div className="container">
       <div className="header">
-        <button>flechita</button>
+        <button onClick={goToHome}>flechita</button>
         <h1>Musica Contextual</h1>
       </div>
       <div className="filter">
