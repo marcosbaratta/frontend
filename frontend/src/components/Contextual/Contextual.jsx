@@ -1,6 +1,6 @@
 import "./Contextual.css";
 import { useEffect, useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Playlist from "../Playlist/Playlist";
 
 function Contextual() {
@@ -11,27 +11,27 @@ function Contextual() {
   //conseguimos los datos para llenar las opciones del form
   const [filters, setAllfilters] = useState({});
 
-  
   const [occasion, setOccasion] = useState({});
   const [mood, setMood] = useState({});
   const [weather, setWeather] = useState({});
   const [genre, setGenre] = useState([]);
-  const [elecciones, setElecciones] = useState({});
+
 
   const [filteredSongs, setFilteredSongs] = useState({});
 
   function handleOccasion(ev) {
-    setOccasion(ev.target.value);
+    setOccasion(parseInt(ev.target.value));
   }
   function handleMood(ev) {
-    setMood(ev.target.value);
+    setMood(parseInt(ev.target.value));
   }
   function handleWeather(ev) {
-    setWeather(ev.target.value);
+    setWeather(parseInt(ev.target.value));
   }
 
   function handleElecciones(ev) {
     ev.preventDefault();
+
     const eleccionesData = {};
     if (Object.keys(occasion).length && occasion !== "juasjuasxd") {
       eleccionesData.ocassions_id = occasion;
@@ -47,12 +47,13 @@ function Contextual() {
     if (genre.length) {
       eleccionesData.genre = genre;
     }
-    setElecciones(eleccionesData);
-    console.log(filteredSongs);
+
+    getFilteredSongs(eleccionesData)
   }
 
   function handleGenre(ev) {
-    const genre_id = ev.target.value;
+    ev.preventDefault();
+    const genre_id = parseInt(ev.target.value);
     const checkExists = genre.includes(genre_id);
 
     if (genre.length < 3 && !checkExists) {
@@ -81,29 +82,24 @@ function Contextual() {
 
     getAllfilters();
   }, []);
-  console.log(filters);
 
 
-  useEffect(() => {
-    const getFilteredSongs = async () => {
+
+    const getFilteredSongs = async (eleccionesData) => {
       const cabecera = new Headers();
-      
+
       cabecera.append("token", localStorage.getItem("token"));
       cabecera.append("Content-Type", "application/json");
       const res = await fetch(`http://localhost:3001/contextualfilter`, {
-        method: "GET",
+        method: "POST",
         headers: cabecera,
-        body: JSON.stringify(elecciones)
+        body: JSON.stringify(eleccionesData),
       });
       const data = await res.json();
 
       setFilteredSongs(data);
+      console.log(data);
     };
-
-    getFilteredSongs();
-  }, [elecciones]);
-
-
 
 
   return (
@@ -112,7 +108,7 @@ function Contextual() {
         <button onClick={goToHome}>flechita</button>
         <h1>Musica Contextual</h1>
       </div>
-      <form onSubmit={(ev) => handleElecciones(ev)} action="POST">
+      <form >
         <div className="filter">
           <label>¿Cuál es la ocasión?</label>
           <select onChange={handleOccasion} name="name">
@@ -158,7 +154,7 @@ function Contextual() {
             {filters?.genres?.map((e) => (
               <button
                 style={
-                  genre.includes(e.id.toString())
+                  genre.includes(e.id)
                     ? {
                         color: `white`,
                         backgroundColor: `green`,
@@ -167,7 +163,7 @@ function Contextual() {
                       }
                     : { color: `black` }
                 }
-                onClick={(ev) => handleGenre(ev)}
+                onClick={handleGenre}
                 value={e.id}
                 key={e.id}
               >
@@ -176,17 +172,12 @@ function Contextual() {
             ))}
           </div>
         </div>
-        <button type="submit">Create Playlist</button>
+        <button onClick={handleElecciones}>Create Playlist</button>
       </form>
 
       {/* <Playlist bodyrequest={elecciones}/> */}
-
-
-
     </div>
   );
 }
 
 export default Contextual;
-
-
