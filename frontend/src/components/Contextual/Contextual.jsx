@@ -9,6 +9,41 @@ function Contextual() {
     };
   const [filters, setAllfilters] = useState({});
 
+  const [occasion, setOccasion] = useState({});
+  const [mood, setMood] = useState({});
+  const [weather, setWeather] = useState({});
+  const [elecciones, setElecciones] = useState({});
+
+  function handleOccasion(ev) {
+    setOccasion(ev.target.value)
+  }
+  function handleMood(ev) {
+    setMood(ev.target.value)
+  }
+  function handleWeather(ev) {
+    setWeather(ev.target.value)
+  }
+
+  function handleElecciones(ev){
+    ev.preventDefault();
+    const eleccionesData = {};
+    if(Object.keys(occasion).length && occasion !== 'juasjuasxd' ){
+      eleccionesData.ocassions_id = occasion;
+    }
+
+    // if(mood !== 'juasjuasxd')
+    if(Object.keys(mood).length && mood !== 'juasjuasxd' ){
+      eleccionesData.moods_id = mood;
+    }
+    if(Object.keys(weather).length && weather !== 'juasjuasxd' ){
+      eleccionesData.weathers_id = weather;
+    }
+    setElecciones(eleccionesData)
+    console.log(elecciones);
+
+  }
+
+  
 
   useEffect(() => {
     const getAllfilters = async () => {
@@ -32,18 +67,22 @@ function Contextual() {
         <button onClick={goToHome}>flechita</button>
         <h1>Musica Contextual</h1>
       </div>
+      <form onSubmit={(ev)=>handleElecciones(ev)} action="POST">
       <div className="filter">
         <label>¿Cuál es la ocasión?</label>
-        <select name="name">
+        <select onChange={handleOccasion} name="name">
+        <option value={'juasjuasxd'}></option>
           {filters?.occasions?.map((elemento) => (
             <option value={elemento.id}>{elemento.name}</option>
           ))}
         </select>
       </div>
+
       {
         <div className="filter">
           <label>¿Cómo te sientes?</label>
-          <select name="name">
+          <select onChange={handleMood} name="name">
+          <option value={'juasjuasxd'}></option>
             {filters?.moods?.map((elemento) => (
               <option value={elemento.id}>{elemento.name}</option>
             ))}
@@ -53,7 +92,8 @@ function Contextual() {
       {
         <div className="filter">
           <label>¿Cómo está el clima?</label>
-          <select name="name">
+          <select onChange={handleWeather} name="name">
+          <option value={'juasjuasxd'}></option>
             {filters?.weathers?.map((elemento) => (
               <option value={elemento.id}>{elemento.name}</option>
             ))}
@@ -64,12 +104,14 @@ function Contextual() {
       <div className="genres-container">
         <label>Selecciona hasta 3 géneros:</label>
         <div className="genres">
+        <option></option>
           {filters?.genres?.map((e) => (
             <button>{e.name}</button>
           ))}
         </div>
       </div>
-      <button onClick={()=>login()}>Login</button>
+      <button type="submit">Create Playlist</button>
+      </form>
       <div>{localStorage.getItem('token')}</div>
     </div>
   );

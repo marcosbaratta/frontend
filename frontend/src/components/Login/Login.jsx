@@ -13,8 +13,9 @@ function Login(){
     
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
   
-    const login = async (e) => {
+    const login = async (e, errorcito) => {
         e.preventDefault();
         try {
             const myHeader = new Headers();
@@ -32,7 +33,8 @@ function Login(){
                 localStorage.setItem('token', data.token);
                 goToHome();
             }else{
-                throw new Error(res)
+                throw new Error(res);
+
             }
 
             
@@ -78,6 +80,7 @@ function Login(){
                     <span>mensaje de error</span>
                 </div>
                 <button  type='submit' className='button'>INICIAR SESION</button>
+                
             </form>
             <div></div>
 
