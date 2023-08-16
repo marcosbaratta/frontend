@@ -15,11 +15,14 @@
 }
 
 .genres button {
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
     border: none;
     background-color: transparent;
+    margin: 3px;    
     display: flex;
-    width: 25%;
+    width: 20%;
 }
 
 
