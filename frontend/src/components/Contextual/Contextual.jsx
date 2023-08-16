@@ -8,13 +8,17 @@ function Contextual() {
   const goToHome = () => {
     navigate("/home");
   };
+  //conseguimos los datos para llenar las opciones del form
   const [filters, setAllfilters] = useState({});
 
+  
   const [occasion, setOccasion] = useState({});
   const [mood, setMood] = useState({});
   const [weather, setWeather] = useState({});
   const [genre, setGenre] = useState([]);
   const [elecciones, setElecciones] = useState({});
+
+  const [filteredSongs, setFilteredSongs] = useState({});
 
   function handleOccasion(ev) {
     setOccasion(ev.target.value);
@@ -44,7 +48,7 @@ function Contextual() {
       eleccionesData.genre = genre;
     }
     setElecciones(eleccionesData);
-    // console.log(elecciones);
+    console.log(filteredSongs);
   }
 
   function handleGenre(ev) {
@@ -80,7 +84,24 @@ function Contextual() {
   console.log(filters);
 
 
+  useEffect(() => {
+    const getFilteredSongs = async () => {
+      const cabecera = new Headers();
+      
+      cabecera.append("token", localStorage.getItem("token"));
+      cabecera.append("Content-Type", "application/json");
+      const res = await fetch(`http://localhost:3001/contextualfilter`, {
+        method: "GET",
+        headers: cabecera,
+        body: JSON.stringify(elecciones)
+      });
+      const data = await res.json();
 
+      setFilteredSongs(data);
+    };
+
+    getFilteredSongs();
+  }, [elecciones]);
 
 
 
