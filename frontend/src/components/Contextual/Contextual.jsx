@@ -89,6 +89,8 @@ function Contextual() {
       const cabecera = new Headers();
 
       cabecera.append("token", localStorage.getItem("token"));
+      cabecera.append("username", localStorage.getItem("username"));
+
       cabecera.append("Content-Type", "application/json");
       const res = await fetch(`http://localhost:3001/contextualfilter`, {
         method: "POST",

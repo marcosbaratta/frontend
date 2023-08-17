@@ -31,6 +31,7 @@ function Login(){
             console.log(res,data);
             if (res.ok){
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('username', username );
                 goToHome();
             }else{
                 throw new Error(res);

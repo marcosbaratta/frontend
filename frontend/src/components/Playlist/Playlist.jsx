@@ -3,6 +3,7 @@ import './Playlist.css';
 
 
 function Playlist(props) {
+    const songs = {};
 
     useEffect(() => {
         const getFilteredSongs = async () => {
