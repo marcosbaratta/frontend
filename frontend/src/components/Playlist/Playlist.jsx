@@ -1,29 +1,30 @@
 import './Playlist.css';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 
 function Playlist(props) {
-    const songs = {};
+    const {id} = useParams()
 
-    useEffect(() => {
-        const getFilteredSongs = async () => {
-          const cabecera = new Headers();
-          cabecera.append("token", localStorage.getItem("token"));
-          const res = await fetch(`http://localhost:3001/contextualfilter`, {
-            headers: cabecera,
-            body: JSON.stringify(props.elecciones)
-          });
-          const data = await res.json();
+    // useEffect(() => {
+    //     const getFilteredSongs = async () => {
+    //       const cabecera = new Headers();
+    //       cabecera.append("token", localStorage.getItem("token"));
+    //       const res = await fetch(`http://localhost:3001/contextualfilter`, {
+    //         headers: cabecera,
+    //         body: JSON.stringify(props.elecciones)
+    //       });
+    //       const data = await res.json();
     
-          setAllfilters(data);
-        };
+    //       setAllfilters(data);
+    //     };
     
-        getAllfilters();
-      }, []);
+    //     getAllfilters();
+    //   }, []);
 
 return(
     <div>
-        soy la playlist
+        {`soy la playlist ${id}`}
     </div>
 )
         

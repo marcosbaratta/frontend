@@ -1,10 +1,15 @@
 import "./Contextual.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import Playlist from "../Playlist/Playlist";
 
 function Contextual() {
   const navigate = useNavigate();
+
+  const goToPlaylist = (id) =>{
+    navigate(`/playlist/${id}`);
+  }
+
   const goToHome = () => {
     navigate("/home");
   };
@@ -15,9 +20,10 @@ function Contextual() {
   const [mood, setMood] = useState({});
   const [weather, setWeather] = useState({});
   const [genre, setGenre] = useState([]);
+  const [direccion, setDireccion] = useState();
 
 
-  const [filteredSongs, setFilteredSongs] = useState({});
+  const [filteredSongs, setFilteredSongs] = useState();
 
   function handleOccasion(ev) {
     setOccasion(parseInt(ev.target.value));
@@ -49,6 +55,7 @@ function Contextual() {
     }
 
     getFilteredSongs(eleccionesData)
+
   }
 
   function handleGenre(ev) {
@@ -99,8 +106,11 @@ function Contextual() {
       });
       const data = await res.json();
 
-      setFilteredSongs(data);
-      console.log(data);
+      // setFilteredSongs(data);
+ 
+      goToPlaylist(data);
+
+ 
     };
 
 
@@ -174,10 +184,11 @@ function Contextual() {
             ))}
           </div>
         </div>
-        <button onClick={handleElecciones}>Create Playlist</button>
+        {!genre.length ?<button disabled>Create Playlist</button>:<button  onClick={handleElecciones}>Create Playlist</button> }
+
       </form>
 
-      {/* <Playlist bodyrequest={elecciones}/> */}
+
     </div>
   );
 }
