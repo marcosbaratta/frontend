@@ -6,6 +6,7 @@ import Login from './components/Login/Login';
 import Home from './components/Home/Home'
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Playlist from './components/Playlist/Playlist';
+import Tinder from './components/Tinder/Tinder';
 
 function App() {
   const rutas= createBrowserRouter ([
@@ -15,6 +16,7 @@ function App() {
   {path: '/register', element: <Register/>}, 
   {path: '/contextual', element: <Contextual/>},
   {path: '/playlist/:id', element: <Playlist/>},
+  // {path: '/tinder', element: <Tinder/>},
  ])
 
 

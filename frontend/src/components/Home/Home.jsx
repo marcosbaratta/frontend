@@ -6,10 +6,13 @@ function Home( ){
   const goToContextual = () => {
     navigate("/contextual");
   };
+  const goToTinder = () => {
+    navigate("/tinder");
+  };
 return(
     <div className='homeContainer'>
         <button onClick={goToContextual}>MUSICA CONTEXTUAL</button>
-        <button>TINDER MUSICAL</button>
+        <button onClick={goToTinder}>TINDER MUSICAL</button>
 
     </div>
 )
