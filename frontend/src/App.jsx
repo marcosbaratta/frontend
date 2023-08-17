@@ -14,7 +14,7 @@ function App() {
   {path: '/login', element: <Login/>},
   {path: '/register', element: <Register/>}, 
   {path: '/contextual', element: <Contextual/>},
-  {path: '/playlist', element: <Playlist/>},
+  {path: '/playlist/:id', element: <Playlist/>},
  ])
 
 
